@@ -42,3 +42,30 @@
     #   ansible.netcommon.net_ping:
     #     dest: 192.168.60.11
     #     count: 2
+
+#     ---
+# - hosts: all
+#   become: yes
+
+#   tasks:
+#   - name: Update Alpine
+#     command: apk upgrade -U -a
+
+#   - name: Create developers group
+#     ansible.builtin.group:
+#       name: developers
+#       state: present
+
+#   - name: Adding user 'geek' with shell and group "developers'
+#     ansible.builtin.user:
+#       name: geek
+#       shell: /bin/bash
+#       groups: developers
+#       append: yes
+
+#   - name: Create ssh key for user 'geek'
+#     ansible.builtin.user:
+#       name: geek
+#       generate_ssh_key: yes
+#       ssh_key_bits: 2048
+#       ssh_key_file: .ssh/geek_key
