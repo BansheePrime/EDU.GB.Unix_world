@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
       server.vm.box = "alpine317-py-repack"
       server.vm.hostname = "alpine-geek"
       server.vm.network "private_network", ip: "192.168.61.20"
-      server.vm.network "forwarded_port", guest: 8181, host: 8181
+      server.vm.network "forwarded_port", guest: 80, host: 8181
       server.vm.synced_folder "development/", "/opt/devops"
     
       server.vm.provider "virtualbox" do |v|

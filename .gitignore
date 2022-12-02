@@ -1,2 +1,3 @@
 .vagrant/
 index_files/
+*console.log
