@@ -16,10 +16,6 @@ Vagrant.configure(2) do |config|
         v.cpus = 1
       end
 
-      # client.vm.provision "ansible" do |ansible|
-      #   ansible.playbook = "playbook.yml"
-      #   ansible.become = true
-      # end
     end
   
     # box 'server'
