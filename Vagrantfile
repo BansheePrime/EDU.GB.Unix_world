@@ -4,14 +4,14 @@
 Vagrant.configure(2) do |config|
     # box 'client'
     config.vm.define "client" do |client|
-      client.vm.box = "centos7"
-      client.vm.hostname = "centos-geek"
+      client.vm.box = "ubuntu1804"
+      client.vm.hostname = "ubuntu-geek"
       client.vm.network :private_network, ip: "192.168.61.21"
       client.vm.synced_folder "development/", "/vagrant_data"
       client.ssh.insert_key = false
   
       client.vm.provider "virtualbox" do |v|
-        v.name = "centos-geek"
+        v.name = "ubuntu-geek"
         v.memory = 1024
         v.cpus = 1
       end
