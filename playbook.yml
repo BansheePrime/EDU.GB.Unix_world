@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Welcome message and general ansible run test
+  hosts: all
   tasks:
     - name: Print Hello message
       debug:
