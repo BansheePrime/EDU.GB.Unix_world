@@ -1,2 +1,3 @@
 .vagrant/
-0*.py
+index_files/
+*console.log

@@ -1,44 +1,21 @@
 ---
-- hosts: all
+- name: Welcome message and general ansible run test
+  hosts: all
+  become: yes
   tasks:
+
     - name: Print Hello message
       debug:
         msg: Hello, Geek World!
 
-    # - name: Test connection between labs machines
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.11
-    #     count: 2
-
-    # - name: Test connection between labs machines
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.12
-    #     count: 2
- 
-# - name: Install Neofetch on Centos 7
-#   become: yes
-#   hosts: web
-#     yum:
-#       name:
-#         - neofetch
-#       state: present
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
+        state: present
+    
+- name: Server setup playbook
+  ansible.builtin.import_playbook: server.yml
   
-    # - name: Test connection between labs machines
-    #   hosts: web
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.12
-    #     count: 2
 
-# - name: Install Neofetch on Ubuntu
-#   become: yes
-#   hosts: lab
-#     apt:
-#       name:
-#         - neofetch
-#       state: present
-  
-    # - name: Test connection between labs machines
-    #   hosts: lab
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.11
-    #     count: 2
+- name: Client setup playbook
+  ansible.builtin.import_playbook: client.yml
