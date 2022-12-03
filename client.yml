@@ -26,13 +26,13 @@
       state: present
       validate: 'visudo -cf %s'
   
-  - name: Get authorized keys for user 'geek-ops'
-    ansible.posix.authorized_key:
-      user: geek-ops
-      state: present
-      key: http://192.168.61.20/geek-ops.key.pub
+  # - name: Get authorized keys for user 'geek-ops'
+  #   ansible.posix.authorized_key:
+  #     user: geek-ops
+  #     state: present
+  #     key: http://192.168.61.20/geek-ops.key.pub
 
-  - name: Test server connection
-    ansible.netcommon.net_ping:
-      dest: 192.168.61.20
-      count: 2
+  # - name: Test server connection
+  #   ansible.netcommon.net_ping:
+  #     dest: 192.168.61.20
+  #     count: 2
