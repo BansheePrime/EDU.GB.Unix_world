@@ -5,7 +5,6 @@
   tasks:
 
   - name: Adding user 'geek-ops' with shell and group "developers'
-    hosts: server
     ansible.builtin.user:
       name: geek-ops
       shell: /bin/bash
