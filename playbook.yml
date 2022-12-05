@@ -6,15 +6,14 @@
       debug:
         msg: Hello, Geek World!
 
-    - name: Install Neofetch on Eurolinux9
-      apt:
-        name:
-          - neofetch
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
         state: present
 
     - name: Adding user 'test-ops' with shell and group "developers'
       ansible.builtin.user:
-        name: geek-ops
+        name: test-ops
         shell: /bin/bash
         groups: developers
         append: yes
@@ -26,13 +25,13 @@
         ssh_key_bits: 2048
         ssh_key_file: .ssh/test-ops_key
 
-    - name: Adding user 'test-ops' to sudoers
-      lineinfile:
-        dest: /etc/sudoers
-        regexp: '^test-ops'
-        line: 'test-ops ALL=(ALL) NOPASSWD: ALL'
-        state: present
-        validate: 'visudo -cf %s'
+    # - name: Adding user 'test-ops' to sudoers
+    #   lineinfile:
+    #     dest: /etc/sudoers
+    #     regexp: '^test-ops'
+    #     line: 'test-ops ALL=(ALL) NOPASSWD: ALL'
+    #     state: present
+    #     validate: 'visudo -cf %s'
 
     - name: Update all installed packages using YUM module
       yum:
