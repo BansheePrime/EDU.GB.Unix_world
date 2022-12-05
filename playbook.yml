@@ -25,3 +25,27 @@
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/test-ops_key
+
+    - name: Adding user 'test-ops' to sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: '^test-ops'
+        line: 'test-ops ALL=(ALL) NOPASSWD: ALL'
+        state: present
+        validate: 'visudo -cf %s'
+
+    - name: Update all installed packages using YUM module
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+        update_only: yes
+      register: yum_update_status
+
+    - name: Remove packates not needed anymore
+      yum:
+        autoremove: yes
+
+    - name: Reboot when packages were updated
+      reboot:
+      when: yum_update_status.changed

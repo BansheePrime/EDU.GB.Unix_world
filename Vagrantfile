@@ -5,8 +5,8 @@ Vagrant.configure(2) do |config|
     # box 'test-field'
     config.vm.define "test" do |test|
       test.vm.box = "eurolinux9"
-      test.vm.synced_folder 'development/', '/opt/devops'
-      web.ssh.insert_key = false
+      test.vm.synced_folder '.', '/vagrant', disable = true
+      test.ssh.insert_key = false
   
       test.vm.provider "virtualbox" do |v|
         v.name = "test-geek"
