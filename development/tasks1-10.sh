@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+
 # Задание 1
+
 tmux
 # ctrl+b % split vertical
 # ctrl+b ':set -g mouse on'
@@ -11,11 +13,13 @@ echo "File 1: $(cat /etc/timezone)" && echo "and ..." && echo "File 2: $(cat /et
 
 # Задание 3
 # 'quoting man on cat'
+
 man cat | awk "NR==4"
 cat /etc/timezone > file1.txt && cat /etc/vconsole.conf > file2.txt
 cat file2.txt >> file1.txt && cat file1.txt && mv file1.txt result.txt
 
 # Задание 4
+
 for i in {1..3}; do touch geek_file$i.txt; done
 mkdir geek_dir
 mv geek_file*.txt ./geek_dir
@@ -23,20 +27,23 @@ tree -L 2 ./geek_dir/
 echo "There is $(ls -A ~ | grep "^\." | wc -l) hidden files in my home dir."
 
 # Задание 5
+
 cat /etc/* 2> errors.txt 
 read -p "Press Enter to contunue." && grep 'Permission' errors.txt | wc -l
 
 # Задание 6
+
 tmux
 vi kill.txt
 ps aux | grep kill.txt | grep -v grep | awk '{print $2}'
 kill $(ps aux | grep kill.txt | grep -v grep | awk '{print $2}')
 
-
 # Задание 7
-?
+
+lsof -u $(id -u) | grep '/dev/' | awk -F " " '{ print $9 }' | sort -u | less
 
 # Задание 8
+
 mkdir photos
 cd photos
 for i in {2018..2023}; do mkdir geek_photos_$i; done
@@ -53,4 +60,5 @@ tree -L 2
 
 
 # Задание 10
-?
+ls -lA | cut -d ' ' -f 1 | tail -n +2 | sort -u | wc -l
+echo "There is $(ls -lA | cut -d ' ' -f 1 | tail -n +2 | sort -u| wc -l) variations of permissions in folder $(pwd)"
