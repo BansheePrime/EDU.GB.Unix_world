@@ -1,44 +1,50 @@
 ---
-- hosts: all
+- hosts: test
+  become: yes
   tasks:
     - name: Print Hello message
       debug:
         msg: Hello, Geek World!
 
-    # - name: Test connection between labs machines
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.11
-    #     count: 2
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
+        state: present
 
-    # - name: Test connection between labs machines
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.12
-    #     count: 2
- 
-# - name: Install Neofetch on Centos 7
-#   become: yes
-#   hosts: web
-#     yum:
-#       name:
-#         - neofetch
-#       state: present
-  
-    # - name: Test connection between labs machines
-    #   hosts: web
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.12
-    #     count: 2
+    - name: Adding user 'test-ops' with shell and group "developers'
+      ansible.builtin.user:
+        name: test-ops
+        shell: /bin/bash
+        groups: developers
+        append: yes
 
-# - name: Install Neofetch on Ubuntu
-#   become: yes
-#   hosts: lab
-#     apt:
-#       name:
-#         - neofetch
-#       state: present
-  
-    # - name: Test connection between labs machines
-    #   hosts: lab
-    #   ansible.netcommon.net_ping:
-    #     dest: 192.168.60.11
-    #     count: 2
+    - name: Create ssh key for user 'test-ops'
+      ansible.builtin.user:
+        name: test-ops
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/test-ops_key
+
+    # - name: Adding user 'test-ops' to sudoers
+    #   lineinfile:
+    #     dest: /etc/sudoers
+    #     regexp: '^test-ops'
+    #     line: 'test-ops ALL=(ALL) NOPASSWD: ALL'
+    #     state: present
+    #     validate: 'visudo -cf %s'
+
+    - name: Update all installed packages using YUM module
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+        update_only: yes
+      register: yum_update_status
+
+    - name: Remove packates not needed anymore
+      yum:
+        autoremove: yes
+
+    - name: Reboot when packages were updated
+      reboot:
+      when: yum_update_status.changed
