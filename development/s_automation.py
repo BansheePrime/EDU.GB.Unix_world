@@ -61,3 +61,28 @@ for year in year_list:
 # cal = calendar.Calendar()
 # for x in cal.itermonthdates(2018, 2):
 #     print(x)
+
+# print('{:02}'.format(1))
+
+# def generator_days_num_list(year, month):
+#     days_num_list = []
+#     range_month_days_num = int(monthrange(year, month_dict.get(month))[1])
+    
+#     for day in range(1, range_month_days_num)
+#     days_num_list.append(day)
+#     return days_num_list
+
+month_days_number = []
+some_big_list = []
+
+for i in year_list:
+    for x in range(1, 12):
+        month_length = monthrange(i, x)[1]
+        month_days_number.append(month_length)
+
+        for y in month_days_number:
+            file_name = (f"{i}{'{:02}'.format(x)}{'{:02}'.format(y)}")
+            some_big_list.append(file_name)
+    # print(f"The year is {i} and months length are: {month_days_number}")
+    month_days_number.clear()
+print(some_big_list)
