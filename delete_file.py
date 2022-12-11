@@ -7,10 +7,10 @@ directory_to_list = './'
 os.remove(file_to_delete)
 print(f'File {file_to_delete} was deleted.')
 
-directory_content = os.listdir(directory_to_list).sort()
+directory_content = os.listdir(directory_to_list)
+directory_content.sort()
 
-print(f'Content of the {directory_to_list} is: ')
+print(f'Content of the {directory_to_list} are: ')
 for i in directory_content:
     print("\t" + i)
-#print(*directory_content.sort(), sep = "\n")
 
