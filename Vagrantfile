@@ -2,48 +2,21 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-    # box 'web'
-    config.vm.define "web" do |web|
-      web.vm.box = "centos7"
-      web.vm.synced_folder '.', '/vagrant', disabled: true
-      web.ssh.insert_key = false
+  config.vm.define "server" do |server|
+    server.vm.box = "alpine317-py-nginx"
+    server.vm.hostname = "alpine-geek"
+    server.vm.network "private_network", ip: "192.168.61.30"
+    server.vm.network "forwarded_port", guest: 80, host: 8181
+    server.vm.synced_folder "development/", "/opt/devops"
   
-      web.vm.provider "virtualbox" do |v|
-        v.name = "centos7-geek"
-        v.memory = 1024
-        v.cpus = 1
-      end
-  
-      web.vm.hostname = "centos7-geek"
-      #config.vm.network "public_network", bridge: "eth0", ip: "192.168.60.11"
-      web.vm.network :private_network, ip: "192.168.60.11" 
-
-      web.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-        ansible.become = true
-      end
+    server.vm.provider "virtualbox" do |v|
+      v.name = "alpine-geek"
+      v.memory = 1024
+      v.cpus = 1
     end
-  
-    # box 'lab'
-    config.vm.define "lab" do |lab|
-      lab.vm.box = "ubuntu2004"
-      lab.vm.synced_folder '.', '/vagrant', disabled: true
-      lab.ssh.insert_key = false
-
-      lab.vm.provider "virtualbox" do |v|
-        v.name = "ubuntu-geek"
-        v.memory = 1024
-        v.cpus = 1
-      end
-
-      lab.vm.hostname = "ubuntu-geek"
-      #config.vm.network "public_network", bridge: "eth0", ip: "192.168.60.11"
-      lab.vm.network :private_network, ip: "192.168.60.12" 
-
-      lab.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-        ansible.become = true
-      end
+    
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
     end
-  
   end
+end
