@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.define "server" do |server|
-    server.vm.box = "alpine317-py-nginx"
+    server.vm.box = "alpine317-gidra"
     server.vm.hostname = "alpine-geek"
     server.vm.network "private_network", ip: "192.168.61.30"
     server.vm.network "forwarded_port", guest: 80, host: 8181

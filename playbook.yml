@@ -1,0 +1,32 @@
+---
+- hosts: server
+  become: yes
+  tasks:
+    - name: Print Hello message
+      debug:
+        msg: Hello, Geek World!
+
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
+        state: present
+
+    - name: Adding users with shells and group "developers'
+      ansible.builtin.user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        groups: developers
+        append: yes
+      loop:
+        - barbarian-geek
+        - bard-geek
+        - cleric-geek
+        - druid-geek
+        - fighter-geek
+        - monk-geek
+        - paladin-geek
+        - ranger-geek
+        - rogue-geek
+        - sorcerer-geek
+        - warlock-geek
+        - wizard-geek

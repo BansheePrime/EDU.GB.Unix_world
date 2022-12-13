@@ -8,3 +8,4 @@ mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
 apk add nginx &&
 cp -f ./index.html /usr/share/nginx/html/ &&
 rc-service nginx start
+#rc-update add nginx default
