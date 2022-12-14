@@ -12,5 +12,6 @@ def generator(datasize):
     return open('file1', mode='r')
 
 
-data_size = 1024
+random_number = random.randint(20, 100)
+data_size = 1024 * random_number
 generator(data_size)
