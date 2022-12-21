@@ -1,0 +1,13 @@
+[all]
+centos7-geek
+ubuntu-geek
+
+[all:vars]
+ansible_ssh_user = vagrant
+ansible_ssh_pass = vagrant
+
+[web]
+centos7-geek
+
+[lab]
+ubuntu-geek
