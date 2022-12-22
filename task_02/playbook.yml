@@ -71,3 +71,16 @@
     #       - INSERT INTO articles (id, story) VALUES (2, 'my_long_story')
     #       - INSERT INTO prices (id, price) VALUES (123, '100.00')
     #     single_transaction: yes
+
+    # - name: Add specified repository into sources list
+    #   ansible.builtin.apt_repository:
+    #     repo: deb http://archive.canonical.com/ubuntu hardy partner
+    #     state: present
+
+    # - name: Installing Mysql and prerequisits
+    #   package:
+    #    name: "{{item}}"
+    #    state: present
+    #    update_cache: yes
+    #   loop:
+    #     - python3-dev 
