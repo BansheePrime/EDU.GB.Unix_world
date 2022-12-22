@@ -3,15 +3,71 @@
   become: yes
   gather_facts: false
   tasks:
-    - name: Print Hello message
-      debug:
-        msg: Hello, Geek World!
+    - name: Installing Mysql and prerequisits
+      package:
+       name: "{{item}}"
+       state: present
+       update_cache: yes
+      loop:
+        - python3-dev
+        - default-libmysqlclient-dev
+        - build-essential
+        - mysql-server
+        - mysql-client 
+        - python3-mysqldb
+        - libmysqlclient-dev
 
-    - name: Install MySQL server
-      shell: apt-get -y install mysql-server
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
 
-    - name: Install MySQL client
-      shell: apt-get -y install mysql-client
+    # - name: Create a new database 'geek_db'
+    #   community.mysql.mysql_db:
+    #     name: geek_db
+    #     state: present
+    #     login_unix_socket: /run/mysqld/mysqld.sock
 
-    - name: Start the MySQL service
-      action: service name=mysql state=started
+    - name: Create database user 'vagrant' with all database privileges
+      community.mysql.mysql_user:
+        name: vagrant
+        password: 123
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create database user 'geek' with all database privileges
+      community.mysql.mysql_user:
+        name: geek
+        password: 123
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create database user 'dev' with all database privileges
+      community.mysql.mysql_user:
+        name: dev
+        password: 123
+        priv: '*.*:ALL'
+        state: present
+
+    # - name: Try to create database as root/nopassword first. If not allowed, pass the credentials
+    #   community.mysql.mysql_db:
+    #     check_implicit_admin: yes
+    #     login_user: geek
+    #     login_password: 123
+    #     name: geek
+    #     state: present
+
+    # - name: Simple select query to acme db
+    #   community.mysql.mysql_query:
+    #   login_db: acme
+    #   query: SELECT * FROM orders
+    #   login_unix_socket: /run/mysqld/mysqld.sock
+
+    # - name: Run several insert queries against db test_db in single transaction
+    #   community.mysql.mysql_query:
+    #     login_db: test_db
+    #     query:
+    #       - INSERT INTO articles (id, story) VALUES (2, 'my_long_story')
+    #       - INSERT INTO prices (id, price) VALUES (123, '100.00')
+    #     single_transaction: yes
