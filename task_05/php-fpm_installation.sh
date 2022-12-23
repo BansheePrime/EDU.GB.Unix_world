@@ -1,22 +1,17 @@
 #!/bin/bash
 # run as sudo -s
 apt update
-apt install php php-cli php-fpm php-json php-zip php-gd php-mbstring php-curl php-xml php-bcmath
+apt install -y php-cli php-fpm php-json php-zip php-gd php-mbstring php-curl php-xml php-bcmath
+systemctl enable php8.1-fpm.service
 
-rc-update add nginx default
-rc-update add php-fpm7 default
+cp -f ./info.php /var/www/html/ &&
+# run as http://your-ip/info.php
+cp -f /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+cp -f ./nginx.conf /etc/nginx/nginx.conf
 
-cp -f ./test.php /usr/share/nginx/html/ &&
-# add location to /etc/nginx/conf.d/default.conf
-cp -f /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
-cp -f ./default.conf /etc/nginx/conf.d/default.conf
-# run as http://your-ip/test.php
+systemctl restart nginx
+systemctl restart php8.1-fpm.service
 
-# fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
-
-# # backup fast CGI settings
-# cp -f /etc/nginx/fastcgi_params /etc/nginx/fastcgi_params.bak
-# cp -f ./fastcgi_params /etc/nginx/fastcgi_params
-
-rc-service nginx restart
-rc-service php-fpm7 restart
+# Failed to enable unit: Unit file php-fpm.service does not exist.
+# cp: cannot stat '/etc/nginx/conf.d/default.conf': No such file or directory
+# Failed to restart php-fpm.service: Unit php-fpm.service not found.
