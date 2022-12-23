@@ -1,7 +1,7 @@
 #!/bin/bash
 # run as sudo -s
-apk add -y php7 php7-fpm php7-opcache
-apk add -y php7-gd php7-zlib php7-curl
+apk add php7 php7-fpm php7-opcache
+apk add php7-gd php7-zlib php7-curl
 rc-update add nginx default
 rc-update add php-fpm7 default
 
