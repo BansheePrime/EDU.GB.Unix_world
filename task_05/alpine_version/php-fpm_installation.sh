@@ -1,8 +1,7 @@
 #!/bin/bash
 # run as sudo -s
-apt update
-apt install php php-cli php-fpm php-json php-zip php-gd php-mbstring php-curl php-xml php-bcmath
-
+apk add php7 php7-fpm php7-opcache
+apk add php7-gd php7-zlib php7-curl
 rc-update add nginx default
 rc-update add php-fpm7 default
 
