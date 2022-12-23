@@ -1,13 +1,17 @@
 [all]
-centos7-geek
-ubuntu-geek
+nginx-geek
+apachai01-geek
+apachai02-geek
+apachai03-geek
 
 [all:vars]
 ansible_ssh_user = vagrant
 ansible_ssh_pass = vagrant
 
-[web]
-centos7-geek
+[nginx]
+nginx-geek
 
-[lab]
-ubuntu-geek
+[web]
+apachai01-geek
+apachai02-geek
+apachai03-geek
