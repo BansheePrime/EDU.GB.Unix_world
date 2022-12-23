@@ -6,12 +6,12 @@ systemctl enable php8.1-fpm.service
 
 cp -f ./info.php /var/www/html/ &&
 # run as http://your-ip/info.php
+cp -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+cp -f ./default /etc/nginx/sites-available/default
 cp -f /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 cp -f ./nginx.conf /etc/nginx/nginx.conf
 
 systemctl restart nginx
 systemctl restart php8.1-fpm.service
 
-# Failed to enable unit: Unit file php-fpm.service does not exist.
-# cp: cannot stat '/etc/nginx/conf.d/default.conf': No such file or directory
-# Failed to restart php-fpm.service: Unit php-fpm.service not found.
+# See "systemctl status nginx.service" and "journalctl -xeu nginx.service" for details.
