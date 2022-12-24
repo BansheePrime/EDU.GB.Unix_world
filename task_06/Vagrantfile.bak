@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+    # box 'nginx balancer'
+    config.vm.define "nginx" do |nginx|
+      nginx.vm.box = "alpine317py"
+      nginx.vm.synced_folder '.', '/vagrant', disabled: true
+      nginx.ssh.insert_key = false
+  
+      nginx.vm.provider "virtualbox" do |v|
+        v.name = "nginx-geek"
+        v.memory = 1024
+        v.cpus = 1
+      end
+  
+      nginx.vm.hostname = "nginx-geek"
+      #config.vm.network "public_network", bridge: "eth0", ip: "192.168.60.14"
+      nginx.vm.network :private_network, ip: "192.168.60.14" 
+
+      nginx.vm.provision "ansible" do |ansible|
+        ansible.playbook = "playbook.yml"
+        ansible.become = true
+      end
+    end
+  
+    # three boxes 'web'
+    config.vm.define "apachai01" do |web|
+      web.vm.box = "alpine317py"
+      web.vm.synced_folder '.', '/vagrant', disabled: true
+      web.ssh.insert_key = false
+
+      web.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 1
+        v.linked_clone = true
+      end
+
+      web.vm.hostname = "apachai01-geek"
+      web.vm.network :private_network, ip: "192.168.60.15" 
+
+      web.vm.provision "ansible" do |ansible|
+        ansible.playbook = "playbook.yml"
+        ansible.become = true
+      end
+    end
+  
+  end
