@@ -1,0 +1,18 @@
+[all]
+nginx ansible_host=192.168.60.17
+apachai14 ansible_host=192.168.60.14
+apachai15 ansible_host=192.168.60.15
+apachai16 ansible_host=192.168.60.16
+
+[nginx]
+nginx
+
+[web]
+apachai14
+apachai15
+apachai16
+
+[all:vars]
+ansible_ssh_user = vagrant
+ansible_ssh_pass = vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key

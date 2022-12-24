@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+    # ubuntu 20.04
+    config.vm.define "mysql" do |web|
+      web.vm.box = "ubuntu2004"
+      web.vm.synced_folder '.', '/vagrant'
+      web.ssh.insert_key = false
+  
+      web.vm.provider "virtualbox" do |v|
+        v.name = "mysql-geek"
+        v.memory = 2048
+        v.cpus = 1
+      end
+  
+      web.vm.hostname = "mysql-geek"
+      web.vm.network :private_network, ip: "192.168.60.12"
+      web.vm.network "forwarded_port", guest: 3306, host: 3306
+      web.vm.network "forwarded_port", guest: 80, host: 8112
+
+      web.vm.provision "ansible" do |ansible|
+        ansible.playbook = "playbook.yml"
+        ansible.become = true
+      end
+    end
+  end
