@@ -1,49 +1,55 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure(2) do |config|
-    # box 'web'
-    config.vm.define "web" do |web|
-      web.vm.box = "centos7"
-      web.vm.synced_folder '.', '/vagrant', disabled: true
-      web.ssh.insert_key = false
-  
-      web.vm.provider "virtualbox" do |v|
-        v.name = "centos7-geek"
-        v.memory = 1024
-        v.cpus = 1
-      end
-  
-      web.vm.hostname = "centos7-geek"
-      #config.vm.network "public_network", bridge: "eth0", ip: "192.168.60.11"
-      web.vm.network :private_network, ip: "192.168.60.11" 
+Vagrant.configure("2") do |config|
 
-      web.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-        ansible.become = true
-      end
-    end
-  
-    # box 'lab'
-    config.vm.define "lab" do |lab|
-      lab.vm.box = "ubuntu2004"
-      lab.vm.synced_folder '.', '/vagrant', disabled: true
-      lab.ssh.insert_key = false
+  # General Vagrant VM configuration
+  config.vm.box = "alpine317-py"
+  config.vm.synced_folder '.', '/vagrant'
+  config.ssh.insert_key = false
 
-      lab.vm.provider "virtualbox" do |v|
-        v.name = "ubuntu-geek"
-        v.memory = 1024
-        v.cpus = 1
-      end
-
-      lab.vm.hostname = "ubuntu-geek"
-      #config.vm.network "public_network", bridge: "eth0", ip: "192.168.60.11"
-      lab.vm.network :private_network, ip: "192.168.60.12" 
-
-      lab.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-        ansible.become = true
-      end
-    end
-  
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 1024
+    vb.cpus = 1
+    vb.linked_clone = true
   end
+
+  # router configuration
+  config.vm.define "router" do |router|
+    # router.vm.box = "alpine317-py"
+    router.vm.network "public_network", bridge: "enp3s0" # +sysctl -w net.inet.ip.forwarding=1
+    router.vm.network "private_network", ip: "192.168.57.1"
+    router.vm.network "private_network", ip: "192.168.58.1"
+    router.vm.network "forwarded_port", guest: 80, host: 8181
+
+    router.vm.provision "shell",
+    inline: <<-SHELL
+      echo -e "\nnet.ipv4.ip_forward=1" >> /etc/sysctl.conf
+      sysctl -p
+      # echo net.ipv4.ip_forward=1 | tee -a /etc/sysctl.conf && sysctl -p
+    SHELL
+  end
+
+  # rouge vm
+  config.vm.define "sword" do |sword|
+    # sword.vm.box = "alpine317-py"    
+    sword.vm.network "private_network", ip: "192.168.57.20"
+
+    sword.vm.provision "shell", path: "default-gw57.sh"
+
+  end
+
+# loot cache
+  config.vm.define "prize" do |prize|
+    # prize.vm.box = "alpine317-py"    
+    prize.vm.network "private_network", ip: "192.168.58.20"
+    
+    prize.vm.provision "shell", path: "default-gw58.sh"
+  end
+
+  # ansible check
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.become = true
+  end
+end
