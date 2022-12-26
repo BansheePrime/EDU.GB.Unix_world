@@ -4,3 +4,8 @@
     - name: Print Hello message
       debug:
         msg: Hello, Geek World!
+
+    - name: Add the user '
+      ansible.builtin.user:
+        name: gidra
+        comment: Alex Gidra

@@ -6,5 +6,5 @@ curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub 
 openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout &&
 mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
 apk add nginx &&
-cp -f ./index.html /usr/share/nginx/html/ &&
+cp -f /vagrant/index.html /usr/share/nginx/html/ &&
 rc-service nginx start

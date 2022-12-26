@@ -46,7 +46,9 @@ Vagrant.configure("2") do |config|
     # shield.vm.box = "alpine317-py"
     shield.vm.hostname = "shield58-geek20"
     shield.vm.network "private_network", ip: "192.168.58.20"
+    shield.vm.provision "shell", path: "nginx_installation.sh"
     shield.vm.provision "shell", path: "default-gw58.sh"
+    shield.vm.provision "shell", path: "firewall_setup.sh"
   end
 
   # ansible check
