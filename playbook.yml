@@ -8,8 +8,8 @@
 
     - name: Add the user
       ansible.builtin.user:
-        name: gidra
-        comment: Alex Gidra
+        name: geek
+        comment: Homework_8
     
     - name: Update cache install apps
       apt:
