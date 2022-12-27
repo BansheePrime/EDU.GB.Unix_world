@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  become: yes
   tasks:
     - name: Print Hello message
       debug:
@@ -9,3 +10,14 @@
       ansible.builtin.user:
         name: gidra
         comment: Alex Gidra
+    
+    - name: Update cache install apps
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - curl
+        - net-tools
+        - nmap
+        - mtr
+        - socat

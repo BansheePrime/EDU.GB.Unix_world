@@ -17,10 +17,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "router" do |router|
     # router.vm.box = "ubuntu2204"
     router.vm.hostname = "router-geek"
-    router.vm.network "public_network", bridge: "enp3s0" # +sysctl -w net.inet.ip.forwarding=1
+    router.vm.network "public_network", bridge: "enp3s0"
     # router.vm.network "private_network", ip: "192.168.57.2"
     router.vm.network "private_network", ip: "192.168.58.2"
-    router.vm.network "forwarded_port", guest: 80, host: 8181
+    # router.vm.network "forwarded_port", guest: 80, host: 8181
 
     router.vm.provision "shell",
     inline: <<-SHELL
